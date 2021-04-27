@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Meal } from './meal.entity';
-import { Week } from './week.entity';
+import { MealEntity } from './meal.entity';
+import { WeekEntity } from './week.entity';
 
 @Module({
   imports: [
@@ -16,14 +16,8 @@ import { Week } from './week.entity';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [Meal, Week],
+        entities: [MealEntity, WeekEntity],
         synchronize: true,
-        ssl: true,
-        extra: {
-          ssl: {
-            rejectUnauthorized: false,
-          },
-        },
       }),
     }),
   ],

@@ -1,32 +1,31 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Meal } from '../core/models/meal.model';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class Week {
-  @PrimaryGeneratedColumn()
+export class WeekEntity {
+  @PrimaryColumn({ unique: true })
   id: number;
 
   @Column()
   userID: number;
 
   @Column()
-  monday: Meal;
+  monday: number;
 
   @Column()
-  tuesday: Meal;
+  tuesday: number;
 
   @Column()
-  wednesday: Meal;
+  wednesday: number;
 
   @Column()
-  thursday: Meal;
+  thursday: number;
 
   @Column()
-  friday: Meal;
+  friday: number;
 
   @Column()
-  saturday: Meal;
+  saturday: number;
 
   @Column()
-  sunday: Meal;
+  sunday: number;
 }

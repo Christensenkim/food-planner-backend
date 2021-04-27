@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class Meal {
-  @PrimaryGeneratedColumn()
+export class MealEntity {
+  @PrimaryColumn({ unique: true })
   public id: number;
 
   @Column()
@@ -12,7 +12,7 @@ export class Meal {
   public userID: number;
 
   @Column()
-  public ingredients: string[];
+  public ingredients: string;
 
   @Column()
   public directions: string;
