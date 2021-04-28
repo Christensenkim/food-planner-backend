@@ -6,6 +6,9 @@ export class WeekEntity {
   id: number;
 
   @Column()
+  weekNumber: number;
+
+  @Column()
   userID: number;
 
   @Column()
@@ -28,4 +31,7 @@ export class WeekEntity {
 
   @Column()
   sunday: number;
+
+  @Column()
+  daysPlanned: number;
 }

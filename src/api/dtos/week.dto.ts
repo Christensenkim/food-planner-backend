@@ -1,13 +1,15 @@
-import { Meal } from '../../core/models/meal.model';
+import { MealDto } from './meal.dto';
 
 export interface WeekDto {
   id: number;
+  weekNumber: number;
   userID: number;
-  monday: Meal;
-  tuesday: Meal;
-  wednesday: Meal;
-  thursday: Meal;
-  friday: Meal;
-  saturday: Meal;
-  sunday: Meal;
+  monday: MealDto | undefined;
+  tuesday: MealDto | undefined;
+  wednesday: MealDto | undefined;
+  thursday: MealDto | undefined;
+  friday: MealDto | undefined;
+  saturday: MealDto | undefined;
+  sunday: MealDto | undefined;
+  daysPlanned: number;
 }

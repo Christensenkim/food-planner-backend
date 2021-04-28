@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Week } from '../models/week.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,16 +15,18 @@ export class WeekService implements IWeekService {
     private weekRepository: Repository<WeekEntity>,
   ) {}
 
-  async getAllWeeks(): Promise<Week[]> {
+  async getAllWeeks(): Promise<WeekDto[]> {
     const weeks = await this.weekRepository.find();
-    const allWeeks: Week[] = JSON.parse(JSON.stringify(weeks));
+    const allWeeks: WeekDto[] = JSON.parse(JSON.stringify(weeks));
     return allWeeks;
   }
+
   async getOneWeek(weekID: number): Promise<WeekDto> {
     const weeks = await this.weekRepository.find();
     const weekDB = weeks.find((w) => w.id == weekID);
     const Week: WeekDto = {
       id: weekDB.id,
+      weekNumber: 1,
       userID: weekDB.userID,
       monday: await this.mealService.findMeal(weekDB.monday),
       tuesday: await this.mealService.findMeal(weekDB.tuesday),
@@ -33,6 +35,7 @@ export class WeekService implements IWeekService {
       friday: await this.mealService.findMeal(weekDB.friday),
       saturday: await this.mealService.findMeal(weekDB.saturday),
       sunday: await this.mealService.findMeal(weekDB.sunday),
+      daysPlanned: 0,
     };
     return Week;
   }
@@ -40,6 +43,7 @@ export class WeekService implements IWeekService {
   async addWeek(week: Week): Promise<WeekDto> {
     let weekToSave = this.weekRepository.create();
     weekToSave.id = 0;
+    weekToSave.weekNumber = 1;
     weekToSave.userID = week.userID;
     weekToSave.monday = week.monday;
     weekToSave.tuesday = week.tuesday;
@@ -48,9 +52,11 @@ export class WeekService implements IWeekService {
     weekToSave.friday = week.friday;
     weekToSave.saturday = week.saturday;
     weekToSave.sunday = week.sunday;
+    weekToSave.daysPlanned = 0;
     weekToSave = await this.weekRepository.save(weekToSave);
     const newWeek: WeekDto = {
       id: 0,
+      weekNumber: 1,
       userID: week.userID,
       monday: await this.mealService.findMeal(weekToSave.monday),
       tuesday: await this.mealService.findMeal(weekToSave.tuesday),
@@ -59,6 +65,7 @@ export class WeekService implements IWeekService {
       friday: await this.mealService.findMeal(weekToSave.friday),
       saturday: await this.mealService.findMeal(weekToSave.saturday),
       sunday: await this.mealService.findMeal(weekToSave.sunday),
+      daysPlanned: 0,
     };
     return newWeek;
   }

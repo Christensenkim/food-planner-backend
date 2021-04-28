@@ -6,7 +6,7 @@ export const IWeekServiceProvider = 'IWeekServiceProvider';
 export interface IWeekService {
   addWeek(week: Week): Promise<WeekDto>;
 
-  getAllWeeks(): Promise<Week[]>;
+  getAllWeeks(): Promise<WeekDto[]>;
 
   getOneWeek(weekID: number): Promise<WeekDto>;
 

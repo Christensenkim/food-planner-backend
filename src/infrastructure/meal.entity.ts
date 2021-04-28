@@ -6,7 +6,7 @@ export class MealEntity {
   public id: number;
 
   @Column()
-  public mealName: string;
+  public name: string;
 
   @Column()
   public userID: number;
