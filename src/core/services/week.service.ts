@@ -5,9 +5,10 @@ import { Meal } from '../models/meal.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MealEntity } from '../../infrastructure/meal.entity';
 import { Repository } from 'typeorm';
+import { IWeekService } from '../primary-ports/week.service.interface';
 
 @Injectable()
-export class FoodplannerService implements IMealService {
+export class WeekService implements IWeekService {
   constructor(
     @InjectRepository(MealEntity)
     private mealRepository: Repository<MealEntity>,
@@ -17,7 +18,16 @@ export class FoodplannerService implements IMealService {
     return undefined;
   }
 
-  addWeek( userID: number, monday: number, tuesday: number, wednesday: number, thursday: number, friday: number, saturday: number, sunday: number): Week {
+  addWeek(
+    userID: number,
+    monday: number,
+    tuesday: number,
+    wednesday: number,
+    thursday: number,
+    friday: number,
+    saturday: number,
+    sunday: number,
+  ): Week {
     const newWeek: Week = {
       id: 0,
       userID: userID,
