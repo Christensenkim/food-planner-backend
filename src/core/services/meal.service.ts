@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { Meal } from '../models/meal.model';
 import { IMealService } from '../primary-ports/meal.service.interface';
 import { CreateMealDto } from '../../api/dtos/create-meal.dto';
-import { UpdateMealDto } from '../../api/dtos/update-meal.dto';
 
 @Injectable()
 export class MealService implements IMealService {
@@ -50,7 +49,7 @@ export class MealService implements IMealService {
     return this.allMeals;
   }
 
-  async updateMeal(id: number, updateMeal: UpdateMealDto) {
+  async updateMeal(id: number, updateMeal: Meal) {
     await this.mealRepository.update(id, updateMeal);
     const updatedMeal = await this.mealRepository.findOne(id);
     if (updatedMeal) {
