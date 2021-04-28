@@ -24,19 +24,13 @@ export class MealService implements IMealService {
     throw new HttpException('Meal not found', HttpStatus.NOT_FOUND);
   }
 
-  async createMeal(
-    mealName: string,
-    userID: number,
-    ingredients: string,
-    directions: string,
-    description: string,
-  ): Promise<CreateMealDto> {
+  async createMeal(createMeal: CreateMealDto): Promise<CreateMealDto> {
     let newMeal = this.mealRepository.create();
-    newMeal.mealName = mealName;
-    newMeal.userID = userID;
-    newMeal.ingredients = ingredients;
-    newMeal.directions = directions;
-    newMeal.description = description;
+    newMeal.mealName = createMeal.mealName;
+    newMeal.userID = createMeal.userID;
+    newMeal.ingredients = createMeal.ingredients;
+    newMeal.directions = createMeal.directions;
+    newMeal.description = createMeal.description;
     newMeal = await this.mealRepository.save(newMeal);
     return newMeal;
   }

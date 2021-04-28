@@ -12,13 +12,7 @@ export interface IMealService {
 
   deleteMeal(id: number): void;
 
-  createMeal(
-    mealName: string,
-    userID: number,
-    ingredients: string,
-    directions: string,
-    description: string,
-  ): Promise<CreateMealDto>;
+  createMeal(createMeal: CreateMealDto): Promise<CreateMealDto>;
 
   updateMeal(id: number, updateMeal: UpdateMealDto);
 }
