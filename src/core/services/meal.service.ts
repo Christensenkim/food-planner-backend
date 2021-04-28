@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { IWeekService } from '../primary-ports/week.service.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MealEntity } from '../../infrastructure/meal.entity';
 import { Repository } from 'typeorm';
@@ -13,7 +12,8 @@ export class MealService implements IMealService {
     private mealRepository: Repository<MealEntity>,
   ) {}
 
-  findMeal(mealID: number): Meal {
-    return undefined;
+  async findMeal(mealID: number): Promise<Meal> {
+    const mealDB = await this.mealRepository.find();
+    return mealDB.find((m) => m.id == mealID);
   }
 }
