@@ -1,5 +1,3 @@
-import { Meal } from './meal.model';
-
 export interface Week {
   id: number;
   userID: number;

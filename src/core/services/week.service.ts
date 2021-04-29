@@ -19,20 +19,9 @@ export class WeekService implements IWeekService {
     const weeks = await this.weekRepository.find();
     const allWeeks: WeekDto[] = [];
     for (const weekDB of weeks) {
-      const week: WeekDto = {
-        id: weekDB.id,
-        weekNumber: 1,
-        userID: weekDB.userID,
-        monday: await this.mealService.findMeal(weekDB.monday),
-        tuesday: await this.mealService.findMeal(weekDB.tuesday),
-        wednesday: await this.mealService.findMeal(weekDB.wednesday),
-        thursday: await this.mealService.findMeal(weekDB.thursday),
-        friday: await this.mealService.findMeal(weekDB.friday),
-        saturday: await this.mealService.findMeal(weekDB.saturday),
-        sunday: await this.mealService.findMeal(weekDB.sunday),
-        daysPlanned: 0,
-      };
+      const week: WeekDto = await this.getOneWeek(weekDB.id);
       allWeeks.push(week);
+      this.mealService.resetDaysPlanned();
     }
     return allWeeks;
   }
@@ -51,8 +40,9 @@ export class WeekService implements IWeekService {
       friday: await this.mealService.findMeal(weekDB.friday),
       saturday: await this.mealService.findMeal(weekDB.saturday),
       sunday: await this.mealService.findMeal(weekDB.sunday),
-      daysPlanned: 0,
+      daysPlanned: this.mealService.daysPlanned,
     };
+    this.mealService.resetDaysPlanned();
     return Week;
   }
 
@@ -70,19 +60,7 @@ export class WeekService implements IWeekService {
     weekToSave.sunday = week.sunday;
     weekToSave.daysPlanned = 0;
     weekToSave = await this.weekRepository.save(weekToSave);
-    const newWeek: WeekDto = {
-      id: 0,
-      weekNumber: 1,
-      userID: week.userID,
-      monday: await this.mealService.findMeal(weekToSave.monday),
-      tuesday: await this.mealService.findMeal(weekToSave.tuesday),
-      wednesday: await this.mealService.findMeal(weekToSave.wednesday),
-      thursday: await this.mealService.findMeal(weekToSave.thursday),
-      friday: await this.mealService.findMeal(weekToSave.friday),
-      saturday: await this.mealService.findMeal(weekToSave.saturday),
-      sunday: await this.mealService.findMeal(weekToSave.sunday),
-      daysPlanned: 0,
-    };
+    const newWeek: WeekDto = await this.getOneWeek(weekToSave.id);
     return newWeek;
   }
 
