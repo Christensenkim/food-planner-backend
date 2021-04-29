@@ -6,15 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { WeekEntity } from '../infrastructure/week.entity';
 import { MealEntity } from '../infrastructure/meal.entity';
 import { MealService } from '../core/services/meal.service';
+import { WeekGateway } from './gateways/week.gateway';
+import { IWeekServiceProvider } from '../core/primary-ports/week.service.interface';
 
 @Module({
   imports: [TypeOrmModule.forFeature([WeekEntity, MealEntity])],
   providers: [
     MealService,
     WeekService,
-    MealGateway,
+    WeekGateway,
     {
-      provide: IMealServiceProvider,
+      provide: IWeekServiceProvider,
       useClass: WeekService,
     },
   ],

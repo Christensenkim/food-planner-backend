@@ -88,4 +88,36 @@ export class WeekService implements IWeekService {
     }
     return weekNo;
   }
+
+  sendMockData(): WeekDto[] {
+    const weekDTOs: WeekDto[] = [
+      {
+        id: 1,
+        weekNumber: 1,
+        userID: 1,
+        monday: { id: 1, name: 'sphagget' },
+        tuesday: undefined,
+        wednesday: undefined,
+        thursday: undefined,
+        friday: { id: 1, name: 'sphagget' },
+        saturday: undefined,
+        sunday: { id: 2, name: 'Meat' },
+        daysPlanned: 2,
+      },
+      {
+        id: 2,
+        weekNumber: 2,
+        userID: 1,
+        monday: { id: 3, name: 'rugbrød' },
+        tuesday: undefined,
+        wednesday: { id: 1, name: 'sphagget' },
+        thursday: undefined,
+        friday: undefined,
+        saturday: { id: 2, name: 'Meat' },
+        sunday: undefined,
+        daysPlanned: 3,
+      },
+    ];
+    return weekDTOs;
+  }
 }

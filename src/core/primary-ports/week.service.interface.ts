@@ -13,4 +13,6 @@ export interface IWeekService {
   deleteWeek(weekID: number): Promise<void>;
 
   updateWeek(weekID: number, week: Week): Promise<Week>;
+
+  sendMockData(): WeekDto[];
 }

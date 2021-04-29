@@ -1,55 +1,27 @@
 import {
+  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
+  WebSocketServer
 } from '@nestjs/websockets';
 import { WeekService } from '../../core/services/week.service';
 import { Inject } from '@nestjs/common';
-import { IWeekServiceProvider } from '../../core/primary-ports/week.service.interface';
+import { IWeekService, IWeekServiceProvider } from "../../core/primary-ports/week.service.interface";
 import { Socket } from 'socket.io';
 import { Week } from '../../core/models/week.model';
-import { WeekDto } from '../dtos/week.dto';
 
 @WebSocketGateway()
 export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(@Inject(IWeekServiceProvider) private weekService: WeekService) {}
+  constructor(@Inject(IWeekServiceProvider) private weekService: IWeekService) {}
 
   @WebSocketServer() server;
 
-  @SubscribeMessage('get-weeks-new')
+  @SubscribeMessage('get-weekoverview')
   handleGetWeeksNewEvent(): void {
-    const weekDTO: WeekDto[] = [
-      {
-        id: 1,
-        weekNumber: 1,
-        userID: 1,
-        monday: { id: 1, name: 'sphagget' },
-        tuesday: undefined,
-        wednesday: undefined,
-        thursday: undefined,
-        friday: { id: 1, name: 'sphagget' },
-        saturday: undefined,
-        sunday: { id: 2, name: 'Meat' },
-        daysPlanned: 2,
-      },
-      {
-        id: 2,
-        weekNumber: 2,
-        userID: 1,
-        monday: { id: 3, name: 'rugbrød' },
-        tuesday: undefined,
-        wednesday: { id: 1, name: 'sphagget' },
-        thursday: undefined,
-        friday: undefined,
-        saturday: { id: 2, name: 'Meat' },
-        sunday: undefined,
-        daysPlanned: 3,
-      },
-    ];
-    this.server.emit('return-all-weeks', weekDTO);
+    this.server.emit('get-weekoverview', this.weekService.sendMockData());
   }
 
   @SubscribeMessage('get-weeks')
