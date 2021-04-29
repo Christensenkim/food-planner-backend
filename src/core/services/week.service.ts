@@ -98,4 +98,15 @@ export class WeekService implements IWeekService {
     }
     throw new HttpException('Week not found', HttpStatus.NOT_FOUND);
   }
+
+  getWeek(): number {
+    const date = new Date(Date.now());
+    const weekOne = new Date(date.getFullYear(), 0, 4);
+    const numberOfDays = Math.floor(
+      (date.getTime() - weekOne.getTime()) / 86400000,
+    );
+    const weekNo =
+      Math.round((numberOfDays - 3 + ((weekOne.getDay() + 6) % 7)) / 7) + 1;
+    return weekNo;
+  }
 }
