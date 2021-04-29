@@ -30,9 +30,10 @@ export class WeekService implements IWeekService {
         friday: await this.mealService.findMeal(weekDB.friday),
         saturday: await this.mealService.findMeal(weekDB.saturday),
         sunday: await this.mealService.findMeal(weekDB.sunday),
-        daysPlanned: 0,
+        daysPlanned: this.mealService.daysPlanned,
       };
       allWeeks.push(week);
+      this.mealService.resetDaysPlanned();
     }
     return allWeeks;
   }
@@ -51,8 +52,9 @@ export class WeekService implements IWeekService {
       friday: await this.mealService.findMeal(weekDB.friday),
       saturday: await this.mealService.findMeal(weekDB.saturday),
       sunday: await this.mealService.findMeal(weekDB.sunday),
-      daysPlanned: 0,
+      daysPlanned: this.mealService.daysPlanned,
     };
+    this.mealService.resetDaysPlanned();
     return Week;
   }
 
@@ -81,8 +83,9 @@ export class WeekService implements IWeekService {
       friday: await this.mealService.findMeal(weekToSave.friday),
       saturday: await this.mealService.findMeal(weekToSave.saturday),
       sunday: await this.mealService.findMeal(weekToSave.sunday),
-      daysPlanned: 0,
+      daysPlanned: this.mealService.daysPlanned,
     };
+    this.mealService.resetDaysPlanned();
     return newWeek;
   }
 
