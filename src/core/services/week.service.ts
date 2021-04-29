@@ -17,7 +17,23 @@ export class WeekService implements IWeekService {
 
   async getAllWeeks(): Promise<WeekDto[]> {
     const weeks = await this.weekRepository.find();
-    const allWeeks: WeekDto[] = JSON.parse(JSON.stringify(weeks));
+    const allWeeks: WeekDto[] = [];
+    for (const weekDB of weeks) {
+      const week: WeekDto = {
+        id: weekDB.id,
+        weekNumber: 1,
+        userID: weekDB.userID,
+        monday: await this.mealService.findMeal(weekDB.monday),
+        tuesday: await this.mealService.findMeal(weekDB.tuesday),
+        wednesday: await this.mealService.findMeal(weekDB.wednesday),
+        thursday: await this.mealService.findMeal(weekDB.thursday),
+        friday: await this.mealService.findMeal(weekDB.friday),
+        saturday: await this.mealService.findMeal(weekDB.saturday),
+        sunday: await this.mealService.findMeal(weekDB.sunday),
+        daysPlanned: 0,
+      };
+      allWeeks.push(week);
+    }
     return allWeeks;
   }
 
