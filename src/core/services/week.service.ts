@@ -31,7 +31,7 @@ export class WeekService implements IWeekService {
     const weekDB = weeks.find((w) => w.id == weekID);
     const Week: WeekDto = {
       id: weekDB.id,
-      weekNumber: 1,
+      weekNumber: weekDB.weekNumber,
       userID: weekDB.userID,
       monday: await this.mealService.findMeal(weekDB.monday),
       tuesday: await this.mealService.findMeal(weekDB.tuesday),
@@ -48,8 +48,7 @@ export class WeekService implements IWeekService {
 
   async addWeek(week: Week): Promise<WeekDto> {
     let weekToSave = this.weekRepository.create();
-    weekToSave.id = 0;
-    weekToSave.weekNumber = 1;
+    weekToSave.weekNumber = this.getWeek();
     weekToSave.userID = week.userID;
     weekToSave.monday = week.monday;
     weekToSave.tuesday = week.tuesday;
@@ -58,7 +57,6 @@ export class WeekService implements IWeekService {
     weekToSave.friday = week.friday;
     weekToSave.saturday = week.saturday;
     weekToSave.sunday = week.sunday;
-    weekToSave.daysPlanned = 0;
     weekToSave = await this.weekRepository.save(weekToSave);
     const newWeek: WeekDto = await this.getOneWeek(weekToSave.id);
     return newWeek;
@@ -83,8 +81,11 @@ export class WeekService implements IWeekService {
     const numberOfDays = Math.floor(
       (date.getTime() - weekOne.getTime()) / 86400000,
     );
-    const weekNo =
+    let weekNo =
       Math.round((numberOfDays - 3 + ((weekOne.getDay() + 6) % 7)) / 7) + 1;
+    if (weekNo == 0) {
+      weekNo = 53;
+    }
     return weekNo;
   }
 }

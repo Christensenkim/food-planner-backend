@@ -31,7 +31,4 @@ export class WeekEntity {
 
   @Column()
   sunday: number;
-
-  @Column()
-  daysPlanned: number;
 }
