@@ -13,11 +13,16 @@ import { IWeekServiceProvider } from '../core/primary-ports/week.service.interfa
   imports: [TypeOrmModule.forFeature([WeekEntity, MealEntity])],
   providers: [
     MealService,
+    MealGateway,
     WeekService,
     WeekGateway,
     {
       provide: IWeekServiceProvider,
       useClass: WeekService,
+    },
+    {
+      provide: IMealServiceProvider,
+      useClass: MealService,
     },
   ],
 })
