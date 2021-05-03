@@ -5,17 +5,22 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { WeekService } from '../../core/services/week.service';
 import { Inject } from '@nestjs/common';
-import { IWeekService, IWeekServiceProvider } from "../../core/primary-ports/week.service.interface";
+import {
+  IWeekService,
+  IWeekServiceProvider,
+} from '../../core/primary-ports/week.service.interface';
 import { Socket } from 'socket.io';
 import { Week } from '../../core/models/week.model';
 
 @WebSocketGateway()
 export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(@Inject(IWeekServiceProvider) private weekService: IWeekService) {}
+  constructor(
+    @Inject(IWeekServiceProvider) private weekService: IWeekService,
+  ) {}
 
   @WebSocketServer() server;
 
