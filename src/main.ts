@@ -10,6 +10,6 @@ async function bootstrap() {
     credentials: true,
   });
   const configService: ConfigService = app.get(ConfigService);
-  await app.listen(configService.get('PORT') || 8080);
+  await app.listen(process.env.PORT || 8080);
 }
 bootstrap();
