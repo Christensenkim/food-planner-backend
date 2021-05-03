@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MealGateway } from './gateways/meal.gateway';
-import { WeekService } from '../core/services/week.service';
 import { IMealServiceProvider } from '../core/primary-ports/meal.service.interface';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WeekEntity } from '../infrastructure/week.entity';
@@ -18,6 +17,10 @@ import { IWeekServiceProvider } from '../core/primary-ports/week.service.interfa
     {
       provide: IWeekServiceProvider,
       useClass: WeekService,
+    MealGateway,
+    {
+      provide: IMealServiceProvider,
+      useClass: MealService,
     },
   ],
 })
