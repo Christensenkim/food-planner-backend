@@ -24,7 +24,7 @@ export class MealService implements IMealService {
       this.daysPlanned++;
       return meal;
     } else {
-      throw new HttpException('Meal not found', HttpStatus.NOT_FOUND);
+      return undefined;
     }
   }
 

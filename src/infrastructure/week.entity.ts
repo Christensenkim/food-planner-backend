@@ -1,15 +1,12 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class WeekEntity {
-  @PrimaryColumn({ unique: true })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   weekNumber: number;
-
-  @Column()
-  userID: number;
 
   @Column({ nullable: true })
   monday: number | undefined;

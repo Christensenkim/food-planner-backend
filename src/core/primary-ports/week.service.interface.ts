@@ -4,7 +4,7 @@ import { WeekDto } from '../../api/dtos/week.dto';
 export const IWeekServiceProvider = 'IWeekServiceProvider';
 
 export interface IWeekService {
-  addWeek(): Promise<WeekDto>;
+  addWeek(): Promise<void>;
 
   getAllWeeks(): Promise<WeekDto[]>;
 
