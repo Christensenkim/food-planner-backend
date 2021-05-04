@@ -11,24 +11,24 @@ export class WeekEntity {
   @Column()
   userID: number;
 
-  @Column()
-  monday: number;
+  @Column({ nullable: true })
+  monday: number | undefined;
 
-  @Column()
-  tuesday: number;
+  @Column({ nullable: true })
+  tuesday: number | undefined;
 
-  @Column()
-  wednesday: number;
+  @Column({ nullable: true })
+  wednesday: number | undefined;
 
-  @Column()
-  thursday: number;
+  @Column({ nullable: true })
+  thursday: number | undefined;
 
-  @Column()
-  friday: number;
+  @Column({ nullable: true })
+  friday: number | undefined;
 
-  @Column()
-  saturday: number;
+  @Column({ nullable: true })
+  saturday: number | undefined;
 
-  @Column()
-  sunday: number;
+  @Column({ nullable: true })
+  sunday: number | undefined;
 }
