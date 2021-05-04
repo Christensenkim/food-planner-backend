@@ -17,13 +17,13 @@ export class WeekService implements IWeekService {
 
   async getAllWeeks(): Promise<WeekDto[]> {
     const weeks = await this.weekRepository.find();
+    const allWeeksDB: WeekDto[] = JSON.parse(JSON.stringify(weeks));
     const allWeeks: WeekDto[] = [];
-    for (const weekDB of weeks) {
+    for (const weekDB of allWeeksDB) {
       const week: WeekDto = await this.getOneWeek(weekDB.id);
       allWeeks.push(week);
       this.mealService.resetDaysPlanned();
     }
-    debugger;
     return allWeeks;
   }
 
@@ -47,9 +47,9 @@ export class WeekService implements IWeekService {
   }
 
   async addWeek(): Promise<void> {
-    let weekToSave = this.weekRepository.create();
+    const weekToSave = this.weekRepository.create();
     weekToSave.weekNumber = this.getWeek();
-    weekToSave = await this.weekRepository.save(weekToSave);
+    await this.weekRepository.save(weekToSave);
   }
 
   async deleteWeek(weekID: number): Promise<void> {
@@ -91,7 +91,7 @@ export class WeekService implements IWeekService {
         friday: { id: 1, name: 'sphagget' },
         saturday: undefined,
         sunday: { id: 2, name: 'Meat' },
-        daysPlanned: 2,
+        daysPlanned: 3,
       },
       {
         id: 2,
@@ -106,6 +106,7 @@ export class WeekService implements IWeekService {
         daysPlanned: 3,
       },
     ];
+    debugger;
     return weekDTOs;
   }
 }
