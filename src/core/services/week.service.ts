@@ -23,6 +23,7 @@ export class WeekService implements IWeekService {
       allWeeks.push(week);
       this.mealService.resetDaysPlanned();
     }
+    debugger;
     return allWeeks;
   }
 
@@ -46,17 +47,10 @@ export class WeekService implements IWeekService {
     return Week;
   }
 
-  async addWeek(week: Week): Promise<WeekDto> {
+  async addWeek(): Promise<WeekDto> {
     let weekToSave = this.weekRepository.create();
+    weekToSave.id = 43;
     weekToSave.weekNumber = this.getWeek();
-    weekToSave.userID = week.userID;
-    weekToSave.monday = week.monday;
-    weekToSave.tuesday = week.tuesday;
-    weekToSave.wednesday = week.wednesday;
-    weekToSave.thursday = week.thursday;
-    weekToSave.friday = week.friday;
-    weekToSave.saturday = week.saturday;
-    weekToSave.sunday = week.sunday;
     weekToSave = await this.weekRepository.save(weekToSave);
     const newWeek: WeekDto = await this.getOneWeek(weekToSave.id);
     return newWeek;

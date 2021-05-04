@@ -31,6 +31,7 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('get-weeks')
   handleGetWeeksEvent(): void {
+    console.log('Hello');
     this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
   }
 
@@ -40,10 +41,11 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('create-new-week')
-  handleWeekEvent(@MessageBody() data: Week): Week {
-    this.weekService.addWeek(data);
+  handleWeekEvent(): void {
+    console.log('Test');
+    debugger;
+    this.weekService.addWeek();
     this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
-    return data;
   }
   @SubscribeMessage('update-week')
   handleUpdateWeekEvent(@MessageBody() data: Week): Week {
