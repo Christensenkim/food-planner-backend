@@ -18,6 +18,12 @@ import { WeekEntity } from './week.entity';
         database: configService.get('POSTGRES_DB'),
         entities: [MealEntity, WeekEntity],
         synchronize: true,
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
     }),
   ],
