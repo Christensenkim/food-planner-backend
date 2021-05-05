@@ -40,7 +40,7 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('create-new-week')
   async handleWeekEvent(): Promise<void> {
-    this.weekService.addWeek();
+    await this.weekService.addWeek();
     this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
   @SubscribeMessage('update-week')
@@ -50,9 +50,9 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return data;
   }
   @SubscribeMessage('delete-week')
-  handleDeleteWeekEvent(@MessageBody() weekID: number): void {
-    this.weekService.deleteWeek(weekID);
-    this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
+  async handleDeleteWeekEvent(@MessageBody() weekID: number): Promise<void> {
+    await this.weekService.deleteWeek(weekID);
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
 
   async handleConnection(client: Socket, ...args: any[]): Promise<any> {}
