@@ -50,10 +50,9 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return data;
   }
   @SubscribeMessage('delete-week')
-  handleDeleteWeekEvent(@MessageBody() data: Week): Week {
-    this.weekService.deleteWeek(data.id);
+  handleDeleteWeekEvent(@MessageBody() weekID: number): void {
+    this.weekService.deleteWeek(weekID);
     this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
-    return data;
   }
 
   async handleConnection(client: Socket, ...args: any[]): Promise<any> {}
