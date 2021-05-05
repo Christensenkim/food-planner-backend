@@ -53,7 +53,7 @@ export class MealService implements IMealService {
     }
   }
 
-  async getMeals() {
+  async getMeals(): Promise<Meal[]> {
     this.allMeals = await this.mealRepository.find();
     return this.allMeals;
   }

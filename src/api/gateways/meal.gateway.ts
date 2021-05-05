@@ -21,29 +21,28 @@ export class MealGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server;
 
   @SubscribeMessage('getMeals')
-  handleMealEvent(@MessageBody() data: Meal): Meal {
-    this.server.emit('allMeals', this.mealService.getMeals());
-    return data;
+  async handleMealEvent(): Promise<void> {
+    this.server.emit('allMeals', await this.mealService.getMeals());
   }
 
   @SubscribeMessage('updateMeal')
-  handleUpdateMealEvent(@MessageBody() data: Meal): Meal {
+  async handleUpdateMealEvent(@MessageBody() data: Meal): Promise<Meal> {
     this.mealService.updateMeal(data.id, data);
-    this.server.emit('allMeals', this.mealService.getMeals());
+    this.server.emit('allMeals', await this.mealService.getMeals());
     return data;
   }
 
   @SubscribeMessage('deleteMeal')
-  handleDeleteMealEvent(@MessageBody() data: Meal): Meal {
+  async handleDeleteMealEvent(@MessageBody() data: Meal): Promise<Meal> {
     this.mealService.deleteMeal(data.id);
-    this.server.emit('allMeals', this.mealService.getMeals());
+    this.server.emit('allMeals', await this.mealService.getMeals());
     return data;
   }
 
   @SubscribeMessage('createMeal')
-  handleCreateMealEvent(@MessageBody() data: CreateMealDto): Meal {
+  async handleCreateMealEvent(@MessageBody() data: CreateMealDto): Promise<Meal> {
     this.mealService.createMeal(data);
-    this.server.emit('allMeals', this.mealService.getMeals());
+    this.server.emit('allMeals', await this.mealService.getMeals());
     return <Meal>data;
   }
 
