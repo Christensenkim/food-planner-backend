@@ -1,34 +1,31 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class WeekEntity {
-  @PrimaryColumn({ unique: true })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   weekNumber: number;
 
-  @Column()
-  userID: number;
+  @Column({ nullable: true })
+  monday: number | undefined;
 
-  @Column()
-  monday: number;
+  @Column({ nullable: true })
+  tuesday: number | undefined;
 
-  @Column()
-  tuesday: number;
+  @Column({ nullable: true })
+  wednesday: number | undefined;
 
-  @Column()
-  wednesday: number;
+  @Column({ nullable: true })
+  thursday: number | undefined;
 
-  @Column()
-  thursday: number;
+  @Column({ nullable: true })
+  friday: number | undefined;
 
-  @Column()
-  friday: number;
+  @Column({ nullable: true })
+  saturday: number | undefined;
 
-  @Column()
-  saturday: number;
-
-  @Column()
-  sunday: number;
+  @Column({ nullable: true })
+  sunday: number | undefined;
 }

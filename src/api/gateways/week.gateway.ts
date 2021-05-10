@@ -7,7 +7,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { WeekService } from '../../core/services/week.service';
 import { Inject } from '@nestjs/common';
 import {
   IWeekService,
@@ -30,8 +29,8 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('get-weeks')
-  handleGetWeeksEvent(): void {
-    this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
+  async handleGetWeeksEvent(): Promise<void> {
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
 
   @SubscribeMessage('get-week')
@@ -40,10 +39,9 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('create-new-week')
-  handleWeekEvent(@MessageBody() data: Week): Week {
-    this.weekService.addWeek(data);
-    this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
-    return data;
+  async handleWeekEvent(): Promise<void> {
+    await this.weekService.addWeek();
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
   @SubscribeMessage('update-week')
   handleUpdateWeekEvent(@MessageBody() data: Week): Week {
@@ -52,10 +50,9 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return data;
   }
   @SubscribeMessage('delete-week')
-  handleDeleteWeekEvent(@MessageBody() data: Week): Week {
-    this.weekService.deleteWeek(data.id);
-    this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
-    return data;
+  async handleDeleteWeekEvent(@MessageBody() weekID: number): Promise<void> {
+    await this.weekService.deleteWeek(weekID);
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
 
   async handleConnection(client: Socket, ...args: any[]): Promise<any> {}

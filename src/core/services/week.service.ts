@@ -17,8 +17,9 @@ export class WeekService implements IWeekService {
 
   async getAllWeeks(): Promise<WeekDto[]> {
     const weeks = await this.weekRepository.find();
+    const allWeeksDB: WeekDto[] = JSON.parse(JSON.stringify(weeks));
     const allWeeks: WeekDto[] = [];
-    for (const weekDB of weeks) {
+    for (const weekDB of allWeeksDB) {
       const week: WeekDto = await this.getOneWeek(weekDB.id);
       allWeeks.push(week);
       this.mealService.resetDaysPlanned();
@@ -32,7 +33,6 @@ export class WeekService implements IWeekService {
     const Week: WeekDto = {
       id: weekDB.id,
       weekNumber: weekDB.weekNumber,
-      userID: weekDB.userID,
       monday: await this.mealService.findMeal(weekDB.monday),
       tuesday: await this.mealService.findMeal(weekDB.tuesday),
       wednesday: await this.mealService.findMeal(weekDB.wednesday),
@@ -46,20 +46,10 @@ export class WeekService implements IWeekService {
     return Week;
   }
 
-  async addWeek(week: Week): Promise<WeekDto> {
-    let weekToSave = this.weekRepository.create();
+  async addWeek(): Promise<void> {
+    const weekToSave = this.weekRepository.create();
     weekToSave.weekNumber = this.getWeek();
-    weekToSave.userID = week.userID;
-    weekToSave.monday = week.monday;
-    weekToSave.tuesday = week.tuesday;
-    weekToSave.wednesday = week.wednesday;
-    weekToSave.thursday = week.thursday;
-    weekToSave.friday = week.friday;
-    weekToSave.saturday = week.saturday;
-    weekToSave.sunday = week.sunday;
-    weekToSave = await this.weekRepository.save(weekToSave);
-    const newWeek: WeekDto = await this.getOneWeek(weekToSave.id);
-    return newWeek;
+    await this.weekRepository.save(weekToSave);
   }
 
   async deleteWeek(weekID: number): Promise<void> {
@@ -94,7 +84,6 @@ export class WeekService implements IWeekService {
       {
         id: 1,
         weekNumber: 1,
-        userID: 1,
         monday: { id: 1, name: 'sphagget' },
         tuesday: undefined,
         wednesday: undefined,
@@ -102,12 +91,11 @@ export class WeekService implements IWeekService {
         friday: { id: 1, name: 'sphagget' },
         saturday: undefined,
         sunday: { id: 2, name: 'Meat' },
-        daysPlanned: 2,
+        daysPlanned: 3,
       },
       {
         id: 2,
         weekNumber: 2,
-        userID: 1,
         monday: { id: 3, name: 'rugbrød' },
         tuesday: undefined,
         wednesday: { id: 1, name: 'sphagget' },
@@ -118,6 +106,7 @@ export class WeekService implements IWeekService {
         daysPlanned: 3,
       },
     ];
+    debugger;
     return weekDTOs;
   }
 }

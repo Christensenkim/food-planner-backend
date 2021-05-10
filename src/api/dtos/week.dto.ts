@@ -3,7 +3,6 @@ import { MealDto } from './meal.dto';
 export interface WeekDto {
   id: number;
   weekNumber: number;
-  userID: number;
   monday: MealDto | undefined;
   tuesday: MealDto | undefined;
   wednesday: MealDto | undefined;
