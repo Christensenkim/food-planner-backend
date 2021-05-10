@@ -54,7 +54,14 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
 
-  async handleConnection(client: Socket, ...args: any[]): Promise<any> {}
+  @SubscribeMessage('test')
+  handleTestEvent(): void {
+    console.log('test Completed');
+  }
+
+  async handleConnection(client: Socket, ...args: any[]): Promise<any> {
+    console.log(client.id);
+  }
 
   async handleDisconnect(client: Socket): Promise<any> {}
 }
