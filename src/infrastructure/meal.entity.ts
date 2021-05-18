@@ -1,15 +1,12 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class MealEntity {
-  @PrimaryColumn({ unique: true })
+  @PrimaryGeneratedColumn()
   public id: number;
 
   @Column()
   public name: string;
-
-  @Column()
-  public userID: number;
 
   @Column()
   public ingredients: string;

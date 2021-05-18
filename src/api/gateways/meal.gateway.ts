@@ -27,29 +27,41 @@ export class MealGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('updateMeal')
   async handleUpdateMealEvent(@MessageBody() data: Meal): Promise<Meal> {
-    this.mealService.updateMeal(data.id, data);
+    await this.mealService.updateMeal(data.id, data);
     this.server.emit('allMeals', await this.mealService.getMeals());
     return data;
   }
 
   @SubscribeMessage('deleteMeal')
   async handleDeleteMealEvent(@MessageBody() data: Meal): Promise<Meal> {
-    this.mealService.deleteMeal(data.id);
+    await this.mealService.deleteMeal(data.id);
     this.server.emit('allMeals', await this.mealService.getMeals());
     return data;
   }
 
   @SubscribeMessage('createMeal')
-  async handleCreateMealEvent(@MessageBody() data: CreateMealDto): Promise<Meal> {
-    this.mealService.createMeal(data);
+  async handleCreateMealEvent(
+    @MessageBody() data: CreateMealDto,
+  ): Promise<Meal> {
+    await this.mealService.createMeal(data);
     this.server.emit('allMeals', await this.mealService.getMeals());
     return <Meal>data;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async handleConnection(client: Socket, ...args: any[]): Promise<any> {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async handleDisconnect(client: Socket): Promise<any> {}
+  @SubscribeMessage('createMeal-mobile')
+  async handleCreateMealMobileEvent(
+    @MessageBody() data: string,
+  ): Promise<void> {
+    const meal = JSON.parse(data);
+    await this.mealService.createMeal(meal);
+    this.server.emit('allMeals', await this.mealService.getMeals());
+  }
+
+  async handleConnection(client: Socket, ...args: any[]): Promise<any> {
+    console.log(client.id);
+  }
+
+  async handleDisconnect(client: Socket): Promise<any> {
+    console.log('client Disconnected');
+  }
 }

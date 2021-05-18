@@ -1,5 +1,4 @@
 import {
-  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -48,20 +47,24 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     await this.weekService.updateWeek(data.id, data);
     this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
+
+  @SubscribeMessage('update-week-mobile')
+  async handleUpdateWeekMobileEvent(@MessageBody() data: string): Promise<void> {
+    const week = JSON.parse(data);
+    await this.weekService.updateWeek(week.id, week);
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
+  }
   @SubscribeMessage('delete-week')
   async handleDeleteWeekEvent(@MessageBody() weekID: number): Promise<void> {
     await this.weekService.deleteWeek(weekID);
     this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
 
-  @SubscribeMessage('test')
-  handleTestEvent(): void {
-    console.log('test Completed');
-  }
-
   async handleConnection(client: Socket, ...args: any[]): Promise<any> {
     console.log(client.id);
   }
 
-  async handleDisconnect(client: Socket): Promise<any> {}
+  async handleDisconnect(client: Socket): Promise<any> {
+    console.log('client Disconnected');
+  }
 }

@@ -35,7 +35,6 @@ export class MealService implements IMealService {
   async createMeal(createMeal: CreateMealDto): Promise<CreateMealDto> {
     let newMeal = this.mealRepository.create();
     newMeal.name = createMeal.name;
-    newMeal.userID = createMeal.userID;
     newMeal.ingredients = createMeal.ingredients;
     newMeal.directions = createMeal.directions;
     newMeal.description = createMeal.description;
