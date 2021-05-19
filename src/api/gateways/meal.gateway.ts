@@ -33,10 +33,9 @@ export class MealGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('deleteMeal')
-  async handleDeleteMealEvent(@MessageBody() data: Meal): Promise<Meal> {
-    await this.mealService.deleteMeal(data.id);
+  async handleDeleteMealEvent(@MessageBody() data: number): Promise<void> {
+    await this.mealService.deleteMeal(data);
     this.server.emit('allMeals', await this.mealService.getMeals());
-    return data;
   }
 
   @SubscribeMessage('createMeal')
@@ -54,6 +53,13 @@ export class MealGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ): Promise<void> {
     const meal = JSON.parse(data);
     await this.mealService.createMeal(meal);
+    this.server.emit('allMeals', await this.mealService.getMeals());
+  }
+
+  @SubscribeMessage('updateMeal-mobile')
+  async handleUpdateMealMobileEvent(@MessageBody() data: string): Promise<void> {
+    const meal = JSON.parse(data);
+    await this.mealService.updateMeal(meal.id, meal);
     this.server.emit('allMeals', await this.mealService.getMeals());
   }
 
