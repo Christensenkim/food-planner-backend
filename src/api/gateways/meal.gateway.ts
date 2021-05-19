@@ -57,7 +57,9 @@ export class MealGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('updateMeal-mobile')
-  async handleUpdateMealMobileEvent(@MessageBody() data: string): Promise<void> {
+  async handleUpdateMealMobileEvent(
+    @MessageBody() data: string,
+  ): Promise<void> {
     const meal = JSON.parse(data);
     await this.mealService.updateMeal(meal.id, meal);
     this.server.emit('allMeals', await this.mealService.getMeals());

@@ -4,4 +4,5 @@ export interface Meal {
   ingredients: string;
   directions: string;
   description: string;
+  picName: string;
 }

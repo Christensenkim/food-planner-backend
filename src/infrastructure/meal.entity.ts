@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class MealEntity {
@@ -16,4 +16,7 @@ export class MealEntity {
 
   @Column()
   public description: string;
+
+  @Column()
+  public picName: string;
 }

@@ -3,4 +3,5 @@ export interface CreateMealDto {
   ingredients: string;
   directions: string;
   description: string;
+  picName: string;
 }
