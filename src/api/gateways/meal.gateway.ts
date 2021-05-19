@@ -25,6 +25,11 @@ export class MealGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('allMeals', await this.mealService.getMeals());
   }
 
+  @SubscribeMessage('getMealByID')
+  async handleMealbyIDEvent(@MessageBody() Id: number): Promise<void> {
+    this.server.emit('mealByID', await this.mealService.getMealByID(Id));
+  }
+
   @SubscribeMessage('updateMeal')
   async handleUpdateMealEvent(@MessageBody() data: Meal): Promise<Meal> {
     await this.mealService.updateMeal(data.id, data);
