@@ -57,6 +57,11 @@ export class MealService implements IMealService {
     return this.allMeals;
   }
 
+  async getMealByID(id: number): Promise<Meal> {
+    const mealByID = await this.mealRepository.findOne(id);
+    return mealByID;
+  }
+
   async updateMeal(id: number, updateMeal: Meal) {
     await this.mealRepository.update(id, updateMeal);
     const updatedMeal = await this.mealRepository.findOne(id);
