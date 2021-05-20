@@ -17,6 +17,6 @@ export class MealEntity {
   @Column()
   public description: string;
 
-  @Column()
+  @Column({ nullable: true })
   public picName: string;
 }
