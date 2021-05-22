@@ -24,6 +24,7 @@ export class WeekService implements IWeekService {
       allWeeks.push(week);
       this.mealService.resetDaysPlanned();
     }
+    allWeeks.sort((a, b) => (a.weekNumber > b.weekNumber ? 1 : -1));
     return allWeeks;
   }
 
