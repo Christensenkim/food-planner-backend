@@ -1,5 +1,4 @@
 import {
-  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -44,10 +43,16 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
   @SubscribeMessage('update-week')
-  handleUpdateWeekEvent(@MessageBody() data: Week): Week {
-    this.weekService.updateWeek(data.id, data);
-    this.server.emit('return-all-weeks', this.weekService.getAllWeeks());
-    return data;
+  async handleUpdateWeekEvent(@MessageBody() data: Week): Promise<void> {
+    await this.weekService.updateWeek(data.id, data);
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
+  }
+
+  @SubscribeMessage('update-week-mobile')
+  async handleUpdateWeekMobileEvent(@MessageBody() data: string): Promise<void> {
+    const week = JSON.parse(data);
+    await this.weekService.updateWeek(week.id, week);
+    this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
   @SubscribeMessage('delete-week')
   async handleDeleteWeekEvent(@MessageBody() weekID: number): Promise<void> {
@@ -55,7 +60,11 @@ export class WeekGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('return-all-weeks', await this.weekService.getAllWeeks());
   }
 
-  async handleConnection(client: Socket, ...args: any[]): Promise<any> {}
+  async handleConnection(client: Socket, ...args: any[]): Promise<any> {
+    console.log(client.id);
+  }
 
-  async handleDisconnect(client: Socket): Promise<any> {}
+  async handleDisconnect(client: Socket): Promise<any> {
+    console.log('client Disconnected');
+  }
 }
