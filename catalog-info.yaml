@@ -4,6 +4,7 @@ metadata:
   name: food-planner-backend
   annotations:
     github.com/project-slug: Christensenkim/food-planner-backend
+    backstage.io/techdocs-ref: url:https://github.com/Christensenkim/food-planner-backend
 spec:
   type: other
   lifecycle: unknown
