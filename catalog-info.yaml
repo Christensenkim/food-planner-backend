@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: food-planner-backend
+  annotations:
+    github.com/project-slug: Christensenkim/food-planner-backend
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guests
